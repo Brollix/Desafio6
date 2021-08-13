@@ -1,3 +1,12 @@
+/* let botonCarrito = document.getElementById('carrito');
+let botonComprar = document.getElementById('compra');
+
+botonCarrito.onclick = function () {
+
+}; */
+
+let carrito = [];
+
 class Producto {
 	constructor(marca, modelo, socket, precio, stock) {
 		this.marca = marca;
@@ -7,16 +16,28 @@ class Producto {
 		this.stock = stock;
 	}
 
-	Carrito(producto) {
-		let carrito = [];
-		carrito.push(producto);
+	Carrito() {
+		carrito.push(this);
 		console.log(carrito);
+		if (carrito.length == 1) {
+			console.log(`Añadiste ${carrito.length} item al carrito.`);
+		} else if (carrito.length > 1) {
+			console.log(`Añadiste ${carrito.length} items al carrito.`);
+		}
 	}
-	Vender(producto) {
+
+	Comprar() {
+		let cantidad = 1;
 		if (this.stock > 0) {
-			this.stock -= 1;
+			console.log(
+				`Stock de ${this.marca} ${this.modelo} ${this.socket}: ${this.stock} `
+			);
+			this.stock -= cantidad;
+			console.log(
+				`Compraste: ${cantidad} ${this.marca} ${this.modelo}\nNuevo Stock: ${this.stock}`
+			);
 		} else {
-			console.log(`No hay stock. Stock: ${this.stock}`);
+			console.log(`No hay stock.`);
 		}
 	}
 }
@@ -41,6 +62,8 @@ const producto9 = new Producto('MSI', 'B550', 'FM4', 12500, 6);
 
 const producto10 = new Producto('Asus', 'B350', 'FM4', 12500, 2);
 
-producto1.Carrito(producto1);
-producto1.Vender(producto1);
+producto1.Carrito();
+producto3.Carrito();
+producto5.Carrito();
 
+console.log(carrito.sort());
