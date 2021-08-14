@@ -1,5 +1,3 @@
-
-
 let botonCarrito = document.querySelector('carrito');
 let botonComprar = document.querySelector('compra');
 
@@ -12,11 +10,11 @@ class Producto {
 		this.socket = socket;
 		this.precio = precio;
 		this.stock = stock;
-    }
+	}
 
 	Carrito() {
-        carrito.push(this);
-        
+		carrito.push(this);
+
 		console.log(carrito);
 		if (carrito.length == 1) {
 			console.log(`Añadiste ${carrito.length} item al carrito.`);
@@ -60,8 +58,6 @@ const producto8 = new Producto('Asus', 'B450', '1150', 11000, 3);
 const producto9 = new Producto('MSI', 'B550', 'FM4', 12500, 6);
 
 const producto10 = new Producto('Asus', 'B350', 'FM4', 12500, 2);
-
-
 
 producto1.Carrito();
 producto3.Carrito();
