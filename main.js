@@ -1,9 +1,7 @@
-/* let botonCarrito = document.getElementById('carrito');
-let botonComprar = document.getElementById('compra');
 
-botonCarrito.onclick = function () {
 
-}; */
+let botonCarrito = document.querySelector('carrito');
+let botonComprar = document.querySelector('compra');
 
 let carrito = [];
 
@@ -14,10 +12,11 @@ class Producto {
 		this.socket = socket;
 		this.precio = precio;
 		this.stock = stock;
-	}
+    }
 
 	Carrito() {
-		carrito.push(this);
+        carrito.push(this);
+        
 		console.log(carrito);
 		if (carrito.length == 1) {
 			console.log(`Añadiste ${carrito.length} item al carrito.`);
@@ -62,8 +61,11 @@ const producto9 = new Producto('MSI', 'B550', 'FM4', 12500, 6);
 
 const producto10 = new Producto('Asus', 'B350', 'FM4', 12500, 2);
 
+
+
 producto1.Carrito();
 producto3.Carrito();
 producto5.Carrito();
+producto8.Carrito();
 
 console.log(carrito.sort());
