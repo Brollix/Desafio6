@@ -1,7 +1,24 @@
-let botonCarrito = document.querySelector('carrito');
-let botonComprar = document.querySelector('compra');
+/* 
+>>Objetivos generales:
+Codificar la funcionalidad inicial del simulador. 
+Identificar el flujo de trabajo del script 
+en términos de captura de entradas ingresadas por el usuario, 
+procesamiento esencial del simulador y notificación de resultados en forma de salida.
+>>Objetivos específicos:
+Capturar entradas mediante prompt().
+Declarar variables y objetos necesarios para simular el proceso seleccionado.
+Crear funciones y/o métodos para realizar operaciones 
+(suma, resta, concatenación, división, porcentaje, etc).
+Efectuar una salida, que es el resultado de los datos procesados, 
+la cual puede hacerse por alert() o console.log().
+ */
+
+//#region Variables y Clase Producto
 
 let carrito = [];
+let subtotal = 0;
+let precio_final = 0;
+const impuesto = 1.65;
 
 class Producto {
 	constructor(marca, modelo, socket, precio, stock) {
@@ -14,54 +31,99 @@ class Producto {
 
 	Carrito() {
 		carrito.push(this);
-
-		console.log(carrito);
-		if (carrito.length == 1) {
-			console.log(`Añadiste ${carrito.length} item al carrito.`);
-		} else if (carrito.length > 1) {
-			console.log(`Añadiste ${carrito.length} items al carrito.`);
-		}
-	}
-
-	Comprar() {
-		let cantidad = 1;
-		if (this.stock > 0) {
-			console.log(
-				`Stock de ${this.marca} ${this.modelo} ${this.socket}: ${this.stock} `
-			);
-			this.stock -= cantidad;
-			console.log(
-				`Compraste: ${cantidad} ${this.marca} ${this.modelo}\nNuevo Stock: ${this.stock}`
-			);
-		} else {
-			console.log(`No hay stock.`);
-		}
 	}
 }
+//#endregion
 
-const producto1 = new Producto('Intel', 'i3', '1151', 30000, 3);
+//#region Creacion de Objetos
 
-const producto2 = new Producto('Intel', 'i5', '1150', 50000, 4);
+//------------Chips----------
+// -----------Intel----------
+const prod_0 = new Producto('Intel', 'i3', '1151', 30000, 3);
+const prod_1 = new Producto('Intel', 'i7', '1200', 50000, 2);
+// ------------AMD------------
+const prod_2 = new Producto('AMD', 'Ryzen 3', 'FM4', 30000, 6);
+const prod_3 = new Producto('AMD', 'Ryzen 7', 'FM4', 50000, 4);
 
-const producto3 = new Producto('Intel', 'i7', '1200', 50000, 2);
+// --------Motherboards------
+// -----------Intel----------
+const prod_4 = new Producto('Gigabyte', 'B350', '1200', 13000, 7);
+const prod_5 = new Producto('Asus', 'B450', '1151', 11000, 3);
+// ------------AMD------------
+const prod_6 = new Producto('MSI', 'B550', 'FM4', 12500, 6);
+const prod_7 = new Producto('Asus', 'B350', 'FM4', 12500, 4);
 
-const producto4 = new Producto('AMD', 'Ryzen 3', 'FM4', 30000, 6);
+//#endregion Productos
 
-const producto5 = new Producto('AMD', 'Ryzen 5', 'FM4', 50000, 5);
+//#region Llamado a funciones y/o metodos
 
-const producto6 = new Producto('AMD', 'Ryzen 7', 'FM4', 50000, 4);
+//Se agregan productos al carrito
+prod_0.Carrito();
+prod_4.Carrito();
+prod_5.Carrito();
+prod_6.Carrito();
 
-const producto7 = new Producto('Gigabyte', 'B350', '1200', 13000, 7);
+largoCarrito(carrito);
 
-const producto8 = new Producto('Asus', 'B450', '1150', 11000, 3);
+//Sort
+ordenarCarrito();
 
-const producto9 = new Producto('MSI', 'B550', 'FM4', 12500, 6);
+//Log despues del Sort
+console.log('Carrito ordenado');
+console.log(carrito);
 
-const producto10 = new Producto('Asus', 'B350', 'FM4', 12500, 2);
+if (checkCompatible(carrito)) {
+	precio_final = calcIVA(suma(carrito), impuesto);
+	console.log(`El precio final +IVA es $${precio_final}`);
+} else {
+	console.log(`Tenes incompatibilidades con tus productos del carrito.`);
+}
 
-producto1.Carrito();
-producto3.Carrito();
-producto5.Carrito();
-producto8.Carrito();
+//#endregion
 
-console.log(carrito.sort());
+//#region Funciones
+function suma(array) {
+	for (let productos of array) {
+		subtotal += productos['precio'];
+	}
+	return subtotal;
+}
+
+function calcIVA(subtotal, impuesto) {
+	console.log(`Subtotal: $${subtotal}`);
+	return subtotal * impuesto;
+}
+
+function checkCompatible(array) {
+	let obj = array[0]['socket'];
+	let i = 0;
+	let compatible = true;
+	for (let productos of array) {
+		if (obj != productos['socket']) {
+			compatible = false;
+			i++;
+			console.log(
+				`${productos['marca']} ${productos['modelo']} Socket: ${productos['socket']}`
+			);
+			console.log(
+				`Socket ${obj} no es compatible con ${productos['socket']}`
+			);
+		}
+	}
+
+	return compatible;
+}
+
+function largoCarrito(array) {
+	let i = array.length;
+	console.log(`Tu carrito tiene ${i} Productos.`);
+}
+
+function ordenarCarrito() {
+	carrito.sort(function (a, b) {
+		console.log('Ordenando el carrito');
+		return a.precio - b.precio;
+	});
+}
+
+//#endregion
