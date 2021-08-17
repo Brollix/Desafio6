@@ -64,19 +64,15 @@ prod_5.Carrito();
 prod_6.Carrito();
 
 largoCarrito(carrito);
-
-//Sort
-ordenarCarrito();
-
-//Log despues del Sort
-console.log('Carrito ordenado');
 console.log(carrito);
 
 if (checkCompatible(carrito)) {
 	precio_final = calcIVA(suma(carrito), impuesto);
 	console.log(`El precio final +IVA es $${precio_final}`);
+	ordenarCarrito();
+	console.log(carrito);
 } else {
-	console.log(`Tenes incompatibilidades con tus productos del carrito.`);
+	console.log(`Tenes incompatibilidades con tus productos en el carrito.`);
 }
 
 //#endregion
@@ -95,18 +91,25 @@ function calcIVA(subtotal, impuesto) {
 }
 
 function checkCompatible(array) {
-	let obj = array[0]['socket'];
+	let socket = array[0]['socket'];
+	let marca = array[0]['marca'];
+	let modelo = array[0]['modelo'];
 	let i = 0;
 	let compatible = true;
+	console.log(
+		`Referencia 1er producto: ${marca} ${modelo} Socket: ${socket}`
+	);
 	for (let productos of array) {
-		if (obj != productos['socket']) {
+		if (socket != productos['socket']) {
 			compatible = false;
 			i++;
 			console.log(
-				`${productos['marca']} ${productos['modelo']} Socket: ${productos['socket']}`
+				`Index ${i + 1}: ${productos['marca']} ${
+					productos['modelo']
+				}, Socket: ${productos['socket']}`
 			);
 			console.log(
-				`Socket ${obj} no es compatible con ${productos['socket']}`
+				`${marca} ${modelo} Socket ${socket} no es compatible con ${productos['socket']}`
 			);
 		}
 	}
